@@ -1,0 +1,87 @@
+#include<stdio.h>
+#include<math.h>
+#define si 100010
+int i,j,k,t,n,x=1,cnt,a[si],sq,v,ind,q,chk,res[400],sm,m;
+
+int main()
+{
+	scanf("%d",&t);
+	while(t--)
+	{
+		scanf("%d%d",&n,&q);
+		for(i=1;i<=n;i++)
+			scanf("%d",&a[i]);
+		i=j=1;
+		sq=sqrt(n);
+		while(i<=n)
+		{
+			cnt=1,sm=0;
+			while(cnt<=sq&&i<=n)
+			{
+				sm+=a[i];
+				i++,cnt++;
+			}
+			res[j++]=sm;
+		}
+		ind=j-1;
+		printf("Case %d:\n",x++);
+		while(q--)
+		{
+			scanf("%d",&chk);
+			if(chk==1)
+			{
+				scanf("%d",&i);
+				i++;
+				m=a[i];
+				a[i]=0;
+				j=i/sq;
+				if(i%sq!=0)
+					j++;
+				res[j]-=m;
+				printf("%d\n",m);
+			}
+			else if(chk==2)
+			{
+				scanf("%d%d",&i,&v);
+				i++;
+				a[i]+=v;
+				j=i/sq;
+				if(i%sq!=0)
+					j++;
+				res[j]+=v;
+			}
+			else
+			{
+				scanf("%d%d",&i,&j);
+				i++,j++;
+				sm=0;
+				for(k=i;k<=j;k++)
+				{
+					sm+=a[k];
+					if(k%sq==0)
+						break;
+				}
+				i=k+1;
+				for(k=j;k>=i;k--)
+				{
+					sm+=a[k];
+					if(k%sq==1)
+						break;
+				}
+				j=k-1;
+				if(j>i)
+				{
+					m=i%sq+i/sq;
+					for(k=m;k<=ind;k++)
+					{
+						sm+=res[k];
+						if(k*sq>=j)
+							break;
+					}
+				}
+				printf("%d\n",sm);
+			}
+		}
+	}
+	return 0;
+}
